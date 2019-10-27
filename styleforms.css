@@ -1,0 +1,113 @@
+body{
+    background: linear-gradient(rgba(0,0,50,0.5), rgba(0,0,50,0.5));
+    background-position: center;
+}
+nav, header, footer{
+    display: block;
+}
+
+.container{
+    width: 100%;
+    margin: auto;
+    padding-top: 5%;
+    padding-bottom: 5%;
+}
+.container2{
+    width: 100%;
+    margin: auto;
+    padding-top: 5%;
+    padding-bottom: 5%;
+}
+.row{
+    width: 100%;
+    display: flex;
+    flex-wrap: wrap;
+    align-self: center;
+}
+.row::after{
+    display: table;
+    clear: both;
+    content: "";
+}
+nav {
+    width: 100%;
+    margin: 0;
+}
+
+nav ul{
+    background: linear-gradient(to right,darkgray, white);
+    overflow: hidden;
+    margin: 0;
+    padding: 0;
+}
+
+ul.topnav li{
+    list-style: none;
+    float: left;
+}
+ul.topnav li.topnav-right{
+    float: right;
+}
+
+ul.topnav li a{
+    display: block;
+    text-decoration:none;
+    color: black;
+    min-height: 16px;
+    text-align: center;
+    padding: 14px;
+    text-transform: capitalize;
+}
+
+ul.topnav li a:hover{
+    background-color: blue;
+    color: white;
+}
+
+ul.topnav li.dropdownIcon{
+    display: none;
+}
+
+#section-1-gradient{
+    background: lightblue;
+    background: -webkit-linear-gradient(#566573,#95A5A6);
+}
+#section-2-gradient{
+    background: lightblue;
+    background: -webkit-linear-gradient(#95A5A6,#566573);
+}
+
+.login-right{
+    background: rgba(211, 211, 211, 0.5);
+    padding: 30px;
+    
+}
+
+
+@media screen and (max-width: 680px){
+    ul.topnav li:not(:nth-child(1)){
+        display: none;
+    }
+    
+    
+    ul.topnav li.dropdownIcon{
+        display: block;
+        float: right;
+    }
+    ul.topnav li.dropdownIcon{
+        position: absolute;
+        top: 0;
+        right: 0;
+    }
+    ul.topnav.responsive{
+        position: relative;
+    }
+    ul.topnav.responsive li{
+        display: inline;
+        float: none;
+    }
+    ul.topnav.responsive li a{
+        display: block;
+        text-align: left;
+    }
+}

@@ -1,0 +1,183 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>VOTS | Vehicle Creation</title>
+
+    <link href='https://fonts.googleapis.com/css?family=Oswald' rel='stylesheet' type='text/css'>
+<link href='https://fonts.googleapis.com/css?family=Open+Sans' rel='stylesheet' type='text/css'>
+<link rel="stylesheet" type="text/css" href="vehicle.css">
+<script src="vehicl.js"></script>
+
+
+
+    <script src="./node_modules/web3/dist/web3.min.js"></script>
+
+</head>
+<body style="background-color:#2E2D2C">
+    <div class="container">
+
+        <h1 style="color:#0b7eb3; font: 4em geneva">New Authority Registration</h1>
+
+        <h2 id="instructor" style="color:#30c76a; font: 1em geneva"></h2>
+        <span id="insTrans" style="color:#27fd92; font: 2em geneva"></span>
+        <hr>
+<!--
+        <img id="loader" src="https://loading.io/spinners/double-ring/lg.double-ring-spinner.gif">
+
+        <label for="name" class="col-lg-2 control-label">Address</label>
+        <input id="name" type="text">
+
+        <label for="name" class="col-lg-2 control-label">Instructor Age</label>
+        <input id="age" type="text">
+
+        <button id="button">Register</button>
+-->
+        
+        <p style="color:#0c6892b6; font: 3em serif">
+        Ethereum Account Address: <input type="text" id="another" />
+        </p>
+        <button style="background-color:#9b7d44;color:#00111a; font: 2em sans-serif" onclick="setMessage()">Execute</button>
+        
+        
+        <button style="background-color:#9b7d44;color:#00111a; font: 2em sans-serif" onclick="another()">Set Number</button>
+
+    </div>
+
+    <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js"></script>
+    <script src="math.js" type="text/javascript"></script>
+
+    <script>
+
+        if (typeof web3 !== 'undefined') {
+            web3 = new Web3(web3.currentProvider);
+        } else {
+            // set the provider you want from Web3.providers
+            web3 = new Web3(new Web3.providers.HttpProvider("http://localhost:8545"));
+        }
+
+        web3.eth.defaultAccount = web3.eth.accounts[0];
+
+        var randomContract = web3.eth.contract([
+	{
+		"constant": false,
+		"inputs": [
+			{
+				"name": "val",
+				"type": "int256"
+			}
+		],
+		"name": "set_ranValue",
+		"outputs": [],
+		"payable": false,
+		"stateMutability": "nonpayable",
+		"type": "function"
+	},
+	{
+		"constant": true,
+		"inputs": [],
+		"name": "get_ranValue",
+		"outputs": [
+			{
+				"name": "",
+				"type": "int256"
+			}
+		],
+		"payable": false,
+		"stateMutability": "view",
+		"type": "function"
+	},
+	{
+		"anonymous": false,
+		"inputs": [
+			{
+				"indexed": false,
+				"name": "val",
+				"type": "int256"
+			},
+			{
+				"indexed": false,
+				"name": "_msg",
+				"type": "string"
+			}
+		],
+		"name": "generate",
+		"type": "event"
+	}
+]);
+
+        var random = randomContract.at('0xc5cb758d17e4ca3297e5f52d77f196d6e4ba4be2');
+        console.log(random);
+/*
+        Coursetro.getInstructor(function(error, result){
+            if(!error)
+                {
+                    $("#instructor").html(result[0]+' ('+result[1]+' years old)');
+                    console.log(result);
+                }
+            else
+                console.error(error);
+        });
+*/
+        
+        var instructorEvent = random.set_ranValue({}, 'latest');
+
+        instructorEvent.watch(function(error, result) {
+           if (result) {
+               if (result.blockHash != $("#insTrans").html())
+                    $("#loader").hide();
+
+               $("#insTrans").html('Block hash: ' + result.blockHash);
+               $("#instructor").html(result.args._add + ' ' + result.args._msg);
+           } else {
+                $("#loader").hide();
+           }
+       });
+
+       function another(randomnumber) {
+        var randomnumber = Math.floor(Math.random()*111);
+        let message = $("#another").val(randomnumber);
+        setTimeout(another, 5000);
+       }
+       
+       function setMessage() {
+        
+    let message = $('#another').val();
+    
+    random.set_ranValue.sendTransaction(
+        message, 
+        {gasPrice: web3.toWei(4.1, 'Gwei')}, 
+        (error, result) => {
+            if(error) {
+                return console.log(error);
+            }
+            console.log("txhash: " + result); 
+        }
+        
+    );
+    document.getElementById("setMessage()").click();
+    
+
+       }
+
+       var tmp;
+        function f1() {
+            tmp = setTimeout("setMessage()", 5000);
+        }
+/*
+       $("#button").click(function() {
+        $("#loader").show();
+           vots.Set_Authority(web3.eth.defaultAccount, $("#name").val(), (err, res) => {
+               if (err) {
+                   $("#loader").hide();
+               }0
+           });
+        });
+*/
+
+    </script>
+
+</body>
+</html>

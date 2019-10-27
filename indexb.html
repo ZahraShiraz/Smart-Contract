@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>VOTS | Vehicle Creation</title>
+
+    <link href='https://fonts.googleapis.com/css?family=Oswald' rel='stylesheet' type='text/css'>
+<link href='https://fonts.googleapis.com/css?family=Open+Sans' rel='stylesheet' type='text/css'>
+<link rel="stylesheet" type="text/css" href="vehicle.css">
+<script src="vehicl.js"></script>
+
+
+
+    <script src="./node_modules/web3/dist/web3.min.js"></script>
+
+</head>
+<body style="background-color:#2E2D2C">
+    <div class="container">
+
+        <h1 style="color:#fd5927">Vehicle Registration to a System</h1>
+
+        <h2 id="instructor"></h2>
+        <span id="insTrans"></span>
+        <hr>
+
+        <p style="color:#fd5927">
+        VIN: <input type="text" id="vin" /><br>
+        Manufactuer Year: <input type="text" id="yr" /><br>
+        Model: <input type="text" id="md" /><br>
+        Make Number: <input type="text" id="mk" /><br>
+        Engine Number: <input type="text" id="eng" /><br>
+        Number Plate: <input type="text" id="nmt" />
+    </p>
+        <button onclick="setMessage()">Register</button>
+
+
+    </div>
+
+    <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js"></script>
+
+    <script>
+
+        if (typeof web3 !== 'undefined') {
+            web3 = new Web3(web3.currentProvider);
+        } else {
+            // set the provider you want from Web3.providers
+            web3 = new Web3(new Web3.providers.HttpProvider("http://localhost:8545"));
+        }
+
+        web3.eth.defaultAccount = web3.eth.accounts[0];
+
+        var votsContract = web3.eth.contract([{"constant":true,"inputs":[{"name":"_id4","type":"string"},{"name":"_cnic3","type":"uint16"}],"name":"isOwned","outputs":[{"name":"","type":"bool"}],"payable":false,"stateMutability":"view","type":"function"},{"constant":false,"inputs":[{"name":"_vin4","type":"string"},{"name":"_id5","type":"uint16"},{"name":"_hash2","type":"string"},{"name":"_newid","type":"uint16"},{"name":"_newhash","type":"string"}],"name":"Vehicle_Transfer","outputs":[],"payable":false,"stateMutability":"nonpayable","type":"function"},{"constant":false,"inputs":[{"name":"_vin3","type":"string"},{"name":"_cnic2","type":"uint16"},{"name":"_hash1","type":"string"}],"name":"RegisterVehicle","outputs":[],"payable":false,"stateMutability":"nonpayable","type":"function"},{"constant":true,"inputs":[{"name":"_id3","type":"string"}],"name":"isRegister","outputs":[{"name":"","type":"bool"}],"payable":false,"stateMutability":"view","type":"function"},{"constant":false,"inputs":[{"name":"_vin","type":"string"},{"name":"_year","type":"uint8"},{"name":"_model","type":"string"},{"name":"_make","type":"string"},{"name":"_eng","type":"string"},{"name":"_numt","type":"string"}],"name":"Vehicle_Creation","outputs":[],"payable":false,"stateMutability":"nonpayable","type":"function"},{"constant":true,"inputs":[{"name":"_vin1","type":"string"}],"name":"isVehicle","outputs":[{"name":"","type":"bool"}],"payable":false,"stateMutability":"view","type":"function"},{"constant":false,"inputs":[{"name":"add","type":"address"}],"name":"Set_Authority","outputs":[],"payable":false,"stateMutability":"nonpayable","type":"function"},{"constant":true,"inputs":[{"name":"_vin5","type":"string"}],"name":"PreviousOwners","outputs":[{"name":"","type":"uint256[]"},{"name":"","type":"uint256[]"}],"payable":false,"stateMutability":"view","type":"function"},{"constant":false,"inputs":[{"name":"_nam","type":"string"},{"name":"_id","type":"uint16"},{"name":"_hash","type":"string"},{"name":"_acnt","type":"address"}],"name":"Person_Registration","outputs":[],"payable":false,"stateMutability":"nonpayable","type":"function"},{"constant":true,"inputs":[{"name":"_add","type":"address"}],"name":"is_Authorized","outputs":[{"name":"","type":"bool"}],"payable":false,"stateMutability":"view","type":"function"},{"constant":true,"inputs":[{"name":"_Id","type":"uint16"},{"name":"_hash","type":"string"}],"name":"comparehashes","outputs":[{"name":"","type":"bool"}],"payable":false,"stateMutability":"view","type":"function"},{"constant":true,"inputs":[{"name":"_id1","type":"uint16"}],"name":"RegPersons_info","outputs":[{"name":"","type":"string"},{"name":"","type":"address"}],"payable":false,"stateMutability":"view","type":"function"},{"constant":true,"inputs":[{"name":"_vin2","type":"string"}],"name":"Vehicle_info","outputs":[{"name":"","type":"uint8"},{"name":"","type":"string"},{"name":"","type":"string"},{"name":"","type":"string"},{"name":"","type":"string"},{"name":"","type":"uint16"},{"name":"","type":"address"}],"payable":false,"stateMutability":"view","type":"function"},{"constant":true,"inputs":[{"name":"_id2","type":"uint16"}],"name":"isPerson","outputs":[{"name":"","type":"bool"}],"payable":false,"stateMutability":"view","type":"function"},{"inputs":[],"payable":false,"stateMutability":"nonpayable","type":"constructor"},{"anonymous":false,"inputs":[{"indexed":false,"name":"_add","type":"address"},{"indexed":false,"name":"_msg","type":"string"}],"name":"Authority_Registration","type":"event"},{"anonymous":false,"inputs":[{"indexed":false,"name":"_vin","type":"string"},{"indexed":false,"name":"_tm","type":"uint256"},{"indexed":false,"name":"_nmpt","type":"string"}],"name":"Vehicle_Created","type":"event"},{"anonymous":false,"inputs":[{"indexed":false,"name":"_nm","type":"string"},{"indexed":false,"name":"_id","type":"uint256"},{"indexed":false,"name":"_add","type":"address"}],"name":"Person_Register","type":"event"},{"anonymous":false,"inputs":[{"indexed":false,"name":"_vin","type":"string"},{"indexed":false,"name":"_id","type":"uint256"},{"indexed":false,"name":"_tm","type":"uint256"}],"name":"Vehicle_Register","type":"event"},{"anonymous":false,"inputs":[{"indexed":false,"name":"_vin","type":"string"},{"indexed":false,"name":"_id1","type":"uint256"},{"indexed":false,"name":"_id2","type":"uint256"},{"indexed":false,"name":"_tm","type":"uint256"}],"name":"vehicle_Trasferred","type":"event"}]);
+
+        var vots = votsContract.at('0x73e569476dcda4b891a1f4c2137fdad29f2436f5');
+        console.log(vots);
+
+        var instructorEvent = vots.Vehicle_Created({}, 'latest');
+
+        instructorEvent.watch(function(error, result) {
+           if (result) {
+               if (result.blockHash != $("#insTrans").html())
+                    $("#loader").hide();
+
+               $("#insTrans").html('Block hash: ' + result.blockHash);
+               $("#instructor").html('Vehicle with VIN: '+ result.args._vin + ' is register at ' + result.args._tm + ' and has Numer: ' + result.args._nmpt);
+           } else {
+                $("#loader").hide();
+           }
+       });
+       
+       function setMessage() {
+    let vin1 = $('#vin').val();
+    let yr1 = $('#yr').val();
+    let md1 = $('#md').val();
+    let mk1 = $('#mk').val();
+    let eng1 = $('#eng').val();
+    let nmt1 = $('#nmt').val();
+    vots.Vehicle_Creation.sendTransaction(
+        vin1, yr1, md1, mk1, eng1, nmt1, 
+        {gasPrice: web3.toWei(4.1, 'Gwei')}, 
+        (error, result) => {
+            if(error) {
+                return console.log(error);
+            }
+            console.log("txhash: " + result); 
+        }
+    );
+
+       }
+
+
+    </script>
+
+</body>
+</html>
